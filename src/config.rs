@@ -18,6 +18,7 @@ pub fn load_config() -> config {
 
 	// read config file
 	let file = File::open("config.json");
+	// match error handling, to try to differentiate errors rather than just panicking
 	let file = match file {
 		Ok(file) => file,
 		Err(error) => match error.kind() {
@@ -25,4 +26,9 @@ pub fn load_config() -> config {
 			other_error => panic!("Error trying to open config file.")
 		}
 	};
+
+	// deserialise config file into config struct
+	let config: Config = serde_json::from_str(file).expect("JSON format incorrect; could not parse.");
+
+	Config
 }
