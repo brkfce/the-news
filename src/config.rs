@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::fs::File;
+use std::fs::read_to_string;
 use std::io::ErrorKind;
 
 /*
@@ -9,26 +9,72 @@ At the moment, there are no user preferences, only the API key.
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
-struct config {
+pub struct Config {
 	api_key: String
 }
 
 
-pub fn load_config() -> config {
+pub fn load_config() -> Config {
+
+	let config_filepath = "config.json";
+	
+	let file_contents = open_file(config_filepath);
+
+	let configuration = parse_json(file_contents);
+
+	configuration
+	
+}
+
+fn open_file(filepath: &'static str) -> String {
 
 	// read config file
-	let file = File::open("config.json");
+	let file_contents = read_to_string(filepath);
 	// match error handling, to try to differentiate errors rather than just panicking
-	let file = match file {
-		Ok(file) => file,
+	let file_contents = match file_contents {
+		Ok(file_contents) => file_contents,
 		Err(error) => match error.kind() {
 			ErrorKind::NotFound => panic!("Config file could not be found."),
 			other_error => panic!("Error trying to open config file.")
 		}
 	};
 
-	// deserialise config file into config struct
-	let config: Config = serde_json::from_str(file).expect("JSON format incorrect; could not parse.");
+	file_contents
+}
 
-	Config
+fn parse_json(file_contents: String) -> Config {
+
+	// deserialise config file into config struct
+	let configuration: Config = serde_json::from_str(&file_contents).expect("JSON format incorrect; could not parse.");
+
+	configuration
+}
+
+
+
+
+#[cfg(test)]
+mod tests {
+	
+
+	#[test]
+	fn test_correct_deserialise() {
+		let correct_json_string: String = "{ \"ApiKey\":\"123\"}".to_string();
+		let configuration: super::Config = super::parse_json(correct_json_string);
+		assert_eq!("123", configuration.api_key);
+	}
+
+	#[test]
+	#[should_panic]
+	fn test_incorrect_json() {
+		let incorrect_json_string: String = "ioaeenrst".to_string();
+		let configuration: super::Config = super::parse_json(incorrect_json_string);
+	}
+
+	#[test]
+	#[should_panic]
+	fn test_incorrect_config() {
+		let incorrect_config_string: String = "{ \"NotApiKey\":\"123\"}".to_string();
+		let configuration: super::Config = super::parse_json(incorrect_config_string);
+	}
 }
