@@ -35,7 +35,7 @@ fn open_file(filepath: &'static str) -> String {
 		Ok(file_contents) => file_contents,
 		Err(error) => match error.kind() {
 			ErrorKind::NotFound => panic!("Config file could not be found."),
-			other_error => panic!("Error trying to open config file.")
+			_other_error => panic!("Error trying to open config file.")
 		}
 	};
 
