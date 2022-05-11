@@ -68,13 +68,13 @@ mod tests {
 	#[should_panic]
 	fn test_incorrect_json() {
 		let incorrect_json_string: String = "ioaeenrst".to_string();
-		let configuration: super::Config = super::parse_json(incorrect_json_string);
+		let _configuration: super::Config = super::parse_json(incorrect_json_string);
 	}
 
 	#[test]
 	#[should_panic]
 	fn test_incorrect_config() {
 		let incorrect_config_string: String = "{ \"NotApiKey\":\"123\"}".to_string();
-		let configuration: super::Config = super::parse_json(incorrect_config_string);
+		let _configuration: super::Config = super::parse_json(incorrect_config_string);
 	}
 }
