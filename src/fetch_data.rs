@@ -36,11 +36,17 @@ pub struct article_source_object {
 // entry point to module
 pub fn fetch_data(configuration: config::Config) {
 
+	let query_string = construct_query_string(configuration);
+
+	let result_string = make_request(query_string);
+
+
+
 }
 
 
 // construct the query string based on the user config
-fn constuct_query_string(configuration: config::Config) -> String {
+fn construct_query_string(configuration: config::Config) -> String {
 
 	// this app gets the top headlines from a source
 	let url = "https://newsapi.org/v2/top-headlines?";
@@ -50,4 +56,20 @@ fn constuct_query_string(configuration: config::Config) -> String {
 
 	query_string
 }
+
+
+// perform a get request on newsapi
+fn make_request(query_string: String) -> String {
+
+	// blocking reqwest, as this is only run once 
+	let response = reqwest::blocking::get(&query_string);
+	// error handling, this could be done better
+	let response = match response {
+		Ok(response) => response,
+		Err(error) => panic!("Could not get response from NewsAPI")
+	};
+
+	response
+}
+
 
