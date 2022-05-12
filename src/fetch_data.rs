@@ -78,3 +78,6 @@ fn parse_response(result_string: String) -> response_object {
 
 	response
 }
+
+
+// need to check status of response to see if query worked
