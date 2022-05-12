@@ -54,7 +54,7 @@ fn construct_query_string(configuration: config::Config) -> String {
 	let url = "https://newsapi.org/v2/top-headlines?";
 
 	// put the relevent strings together
-	let query_string = format!("{}{}&{}", url, configuration.source, configuration.api_key);
+	let query_string = format!("{}sources={}&apiKey={}", url, configuration.source, configuration.api_key);
 
 	query_string
 }
