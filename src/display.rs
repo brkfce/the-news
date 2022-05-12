@@ -7,6 +7,7 @@ use crate::fetch_data;
 pub fn headlines(response: &fetch_data::ResponseObject) {
 
 	let mut counter = 1;
+	println!();
 	
 	for headline in &response.articles {
 
@@ -20,6 +21,7 @@ pub fn headlines(response: &fetch_data::ResponseObject) {
 pub fn headline_description(response: &fetch_data::ResponseObject) {
 	
 	let mut counter = 1;
+	println!();
 	
 	for article in &response.articles {
 
@@ -34,6 +36,7 @@ pub fn headline_description(response: &fetch_data::ResponseObject) {
 pub fn headline_description_url(response: &fetch_data::ResponseObject) {
 	
 	let mut counter = 1;
+	println!();
 	
 	for article in &response.articles {
 
