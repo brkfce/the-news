@@ -34,13 +34,15 @@ pub struct article_source_object {
 
 
 // entry point to module
-pub fn fetch_data(configuration: config::Config) {
+pub fn fetch_data(configuration: config::Config) -> response_object {
 
 	let query_string = construct_query_string(configuration);
 
 	let result_string = make_request(query_string);
 
+	let response_object = parse_response(result_string);
 
+	response_object
 
 }
 
@@ -62,12 +64,7 @@ fn construct_query_string(configuration: config::Config) -> String {
 fn make_request(query_string: String) -> String {
 
 	// blocking reqwest, as this is only run once 
-	let response = reqwest::blocking::get(&query_string);
-	// error handling, this could be done better
-	let response = match response {
-		Ok(response) => response,
-		Err(error) => panic!("Could not get response from NewsAPI")
-	};
+	let response = reqwest::blocking::get(&query_string).expect("Could not get response from NewsAPI").text().expect("Could not convert response to string.");
 
 	response
 }
