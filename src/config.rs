@@ -31,7 +31,7 @@ fn number_of_headlines_default() -> i32 {
 	10
 }
 fn display_format_default() -> String {
-	"h".to_string()
+	"h&d&u".to_string()
 }
 
 // entry point to module

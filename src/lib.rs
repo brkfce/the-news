@@ -9,9 +9,11 @@ pub fn get_the_news() {
 	match &user_config.display_format[..] {
 		// only display the headlines
 		"h" => display::headlines(&response),
-		// display the headli ne s and descriptions
-		"h&d" => display::description(&response),
+		// display the headlines and descriptions
+		"h&d" => display::headline_description(&response),
+		// display the headlines and the descriptions and the url
+		"h&d&u" => display::headline_description_url(&response),
 		// anything else
-		_ => display::headlines(&response),
+		_ => display::headline_description_url(&response),
 	}
 } 
