@@ -13,3 +13,17 @@ pub fn headlines(response: fetch_data::ResponseObject) {
 		counter += 1;
 	}
 }
+
+// display headline and description to the user
+pub fn description(response: fetch_data::ResponseObject) {
+	
+	let mut counter = 1;
+	
+	for article in response.articles {
+
+		// print title of each article fetched
+		println!("{}. {}", counter, article.title);
+		println!("{}", article.description);
+		counter += 1;
+	}
+}
