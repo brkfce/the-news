@@ -12,7 +12,9 @@ At the moment, there are no user preferences, only the API key.
 pub struct Config {
 	// the api key needed for the newsapi
 	pub api_key: String,
-	pub source: String
+	pub source: String,
+	pub number_of_headlines: i32,
+	pub display_format: String
 }
 
 // entry point to module
