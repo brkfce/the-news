@@ -11,8 +11,8 @@ At the moment, there are no user preferences, only the API key.
 #[serde(rename_all = "PascalCase")]
 pub struct Config {
 	// the api key needed for the newsapi
-	api_key: String,
-	source: String
+	pub api_key: String,
+	pub source: String
 }
 
 // entry point to module
