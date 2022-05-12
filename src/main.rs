@@ -1,3 +1,5 @@
+use the_news::get_the_news;
+
 fn main() {
-    println!("Hello, world!");
+    get_the_news();
 }
