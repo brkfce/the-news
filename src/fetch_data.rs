@@ -1,5 +1,4 @@
 use reqwest;
-use tokio;
 use serde::Deserialize;
 use crate::config;
 
