@@ -11,7 +11,8 @@ At the moment, there are no user preferences, only the API key.
 #[serde(rename_all = "PascalCase")]
 pub struct Config {
 	// the api key needed for the newsapi
-	api_key: String
+	api_key: String,
+	source: String
 }
 
 // entry point to module
@@ -62,7 +63,7 @@ mod tests {
 	// test a file string that is formatted correctly
 	#[test]
 	fn test_correct_deserialise() {
-		let correct_json_string: String = "{ \"ApiKey\":\"123\"}".to_string();
+		let correct_json_string: String = "{ \"ApiKey\":\"123\", \"Source\":\"bbc-news\"}".to_string();
 		let configuration: super::Config = super::parse_json(correct_json_string);
 		assert_eq!("123", configuration.api_key);
 	}
