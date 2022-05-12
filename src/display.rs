@@ -11,7 +11,7 @@ pub fn headlines(response: &fetch_data::ResponseObject) {
 	for headline in &response.articles {
 
 		// print title of each article fetched
-		println!("{}. {}", counter, headline.title);
+		println!("{}. {}\n", counter, headline.title);
 		counter += 1;
 	}
 }
@@ -25,7 +25,7 @@ pub fn headline_description(response: &fetch_data::ResponseObject) {
 
 		// print title of each article fetched
 		println!("{}. {}", counter, article.title);
-		println!("{}", article.description);
+		println!("{}\n", article.description);
 		counter += 1;
 	}
 }
@@ -40,7 +40,7 @@ pub fn headline_description_url(response: &fetch_data::ResponseObject) {
 		// print title of each article fetched
 		println!("{}. {}", counter, article.title);
 		println!("{}", article.description);
-		println!("{}", article.url);
+		println!("{}\n", article.url);
 		counter += 1;
 	}
 }
