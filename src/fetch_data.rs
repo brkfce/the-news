@@ -8,28 +8,28 @@ use crate::config;
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct response_object {
-	status: String,
-	total_results: i32,
-	articles: Vec<article_object>
+	pub status: String,
+	pub total_results: i32,
+	pub articles: Vec<article_object>
 }
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct article_object {
-	source: article_source_object,
-	author: String,
-	title: String,
-	description: String,
-	url: String,
-	url_to_image: String,
-	published_at: String,
-	content: String
+	pub source: article_source_object,
+	pub author: String,
+	pub title: String,
+	pub description: String,
+	pub url: String,
+	pub url_to_image: String,
+	pub published_at: String,
+	pub content: String
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct article_source_object {
-	id: String,
-	name: String
+	pub id: String,
+	pub name: String
 }
 
 
