@@ -34,7 +34,20 @@ pub struct article_source_object {
 
 
 // entry point to module
-pub fn get_data(configuration: config::Config) {
+pub fn fetch_data(configuration: config::Config) {
 
+}
+
+
+// construct the query string based on the user config
+fn constuct_query_string(configuration: config::Config) -> String {
+
+	// this app gets the top headlines from a source
+	let url = "https://newsapi.org/v2/top-headlines?";
+
+	// put the relevent strings together
+	let query_string = format!("{}{}&{}", url, configuration.source, configuration.api_key);
+
+	query_string
 }
 
