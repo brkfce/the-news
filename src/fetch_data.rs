@@ -73,3 +73,11 @@ fn make_request(query_string: String) -> String {
 }
 
 
+// parse the result into the response object structs
+fn parse_response(result_string: String) -> response_object {
+
+	// deserialise result into response struct
+	let response: response_object = serde_json::from_str(&result_string).expect("Error parsing response from API");
+
+	response
+}
