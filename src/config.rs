@@ -12,9 +12,26 @@ At the moment, there are no user preferences, only the API key.
 pub struct Config {
 	// the api key needed for the newsapi
 	pub api_key: String,
+	// the source used to pull the headlines from
+	#[serde(default = "source_default")]
 	pub source: String,
+	// the number of headlines to find and display
+	#[serde(default = "number_of_headlines_default")]
 	pub number_of_headlines: i32,
+	// whether the headline or headline and description is displayed
+	#[serde(default = "display_format_default")]
 	pub display_format: String
+}
+
+// default values for config
+fn source_default() -> String {
+	"bbc-news".to_string()
+}
+fn number_of_headlines_default() -> i32 {
+	10
+}
+fn display_format_default() -> String {
+	"h".to_string()
 }
 
 // entry point to module
