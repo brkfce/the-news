@@ -7,15 +7,15 @@ use crate::config;
 // the object returned by the newsapi
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct response_object {
+pub struct ResponseObject {
 	pub status: String,
 	pub total_results: i32,
-	pub articles: Vec<article_object>
+	pub articles: Vec<ArticleObject>
 }
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct article_object {
-	pub source: article_source_object,
+pub struct ArticleObject {
+	pub source: ArticleSourceObject,
 	pub author: String,
 	pub title: String,
 	pub description: String,
@@ -27,14 +27,14 @@ pub struct article_object {
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct article_source_object {
+pub struct ArticleSourceObject {
 	pub id: String,
 	pub name: String
 }
 
 
 // entry point to module
-pub fn fetch_data(configuration: config::Config) -> response_object {
+pub fn fetch_data(configuration: config::Config) -> ResponseObject {
 
 	let query_string = construct_query_string(configuration);
 
@@ -71,10 +71,10 @@ fn make_request(query_string: String) -> String {
 
 
 // parse the result into the response object structs
-fn parse_response(result_string: String) -> response_object {
+fn parse_response(result_string: String) -> ResponseObject {
 
 	// deserialise result into response struct
-	let response: response_object = serde_json::from_str(&result_string).expect("Error parsing response from API");
+	let response: ResponseObject = serde_json::from_str(&result_string).expect("Error parsing response from API");
 
 	response
 }
