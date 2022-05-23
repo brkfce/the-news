@@ -1,6 +1,9 @@
 use serde::Deserialize;
 use std::fs::read_to_string;
+use std::fs::File;
 use std::io::ErrorKind;
+use std::io::{self, Write};
+use std::process;
 
 /*
 This mod opens a config.json file, which contains the newsapi key and user preferences.
@@ -56,7 +59,7 @@ fn open_file(filepath: &'static str) -> String {
 	let file_contents = match file_contents {
 		Ok(file_contents) => file_contents,
 		Err(error) => match error.kind() {
-			ErrorKind::NotFound => panic!("Config file could not be found."),
+			ErrorKind::NotFound => gen_file(), 
 			_other_error => panic!("Error trying to open config file.")
 		}
 	};
@@ -64,11 +67,32 @@ fn open_file(filepath: &'static str) -> String {
 	file_contents
 }
 
+// generate blank config file
+fn gen_file() -> String {
+
+	// create file
+	let mut file = File::create("config.json").expect("Could not find config file and failed to create one.");
+
+	// file file with empty config
+	file.write_all(b"{\n	\"ApiKey\":\"\",\n	\"Source\":\"bbc-news\",\n	\"NumberOfHeadlines\":10,\n	\"DisplayFormat\":\"h&d&u\"\n}").expect("Could not find config file and failed to write to ie.");
+
+	// tell user that a file has been created and needs to be filled with an API key
+	io::stdout().write_all(b"Default config file has been created. Please populate it with your API key and try again.").unwrap();
+
+	// exit the program
+	process::exit(0);
+
+}
+
 // the config file is in the JSON format, so it needs to be deserialized and stored in a config struct
 fn parse_json(file_contents: String) -> Config {
 
 	// deserialise config file into config struct
 	let configuration: Config = serde_json::from_str(&file_contents).expect("JSON format incorrect; could not parse.");
+
+	if configuration.api_key == "" {
+		panic!("API key not found. Please put an API key in the config.json file and try again.");
+	}
 
 	configuration
 }
