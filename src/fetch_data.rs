@@ -33,15 +33,15 @@ pub struct ArticleSourceObject {
 
 
 // entry point to module
-pub fn fetch_data(configuration: &config::Config) -> ResponseObject {
+pub fn fetch_data(configuration: &config::Config) -> Result<ResponseObject, &'static str> {
 
 	let query_string = construct_query_string(configuration);
 
-	let result_string = make_request(query_string);
+	let result_string = make_request(query_string)?;
 
-	let response_object = parse_response(result_string);
+	let response_object = parse_response(result_string)?;
 
-	response_object
+	Ok(response_object)
 
 }
 
@@ -60,22 +60,35 @@ fn construct_query_string(configuration: &config::Config) -> String {
 
 
 // perform a get request on newsapi
-fn make_request(query_string: String) -> String {
+fn make_request(query_string: String) -> Result<String, &'static str> {
 
 	// blocking reqwest, as this is only run once 
-	let response = reqwest::blocking::get(&query_string).expect("Could not get response from NewsAPI").text().expect("Could not convert response to string.");
+	let response = reqwest::blocking::get(&query_string);
 
-	response
+	let response = match response {
+		Ok(response) => response,
+		Err(error) => return Err("Could not get response from NewsAPI."),
+	};
+
+	let response = response.text();
+
+	match response {
+		Ok(response) => Ok(response),
+		Err(error) => Err("Could not convert response to string."),
+	}
 }
 
 
 // parse the result into the response object structs
-fn parse_response(result_string: String) -> ResponseObject {
+fn parse_response(result_string: String) -> Result<ResponseObject, &'static str> {
 
 	// deserialise result into response struct
-	let response: ResponseObject = serde_json::from_str(&result_string).expect("Error parsing response from API");
+	let response: Result<ResponseObject, serde_json::Error> = serde_json::from_str(&result_string);
 
-	response
+	match response {
+		Ok(response) => Ok(response),
+		Err(error) => Err("Error parsing response from NewsAPI, potentially due to incorrect configuration settings."),
+	}
 }
 
 
