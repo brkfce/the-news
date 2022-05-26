@@ -1,5 +1,3 @@
-use reqwest::Error;
-
 mod fetch_data;
 mod config;
 mod display;
