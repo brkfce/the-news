@@ -4,8 +4,28 @@ mod display;
 
 
 pub fn get_the_news() {
-	let user_config: config::Config = config::load_config();
-	let response: fetch_data::ResponseObject = fetch_data::fetch_data(&user_config);
+
+	// read in user config
+	let user_config: Result<config::Config, &'static str> = config::load_config();
+	let user_config = match user_config {
+		Ok(user_config) => user_config,
+		Err(error) => {
+			println!("Error reading configuration file: {error:?}");
+			std::process::exit(1)
+		}
+	};
+
+
+	let response: Result<fetch_data::ResponseObject, &'static str> = fetch_data::fetch_data(&user_config);
+	let response = match response {
+		Ok(response) => response,
+		Err(error) => {
+			println!("Error getting response from API: {error:?}");
+			std::process::exit(1)
+		}
+	};
+
+
 	match &user_config.display_format[..] {
 		// only display the headlines
 		"h" => display::headlines(&response),
