@@ -115,7 +115,7 @@ mod tests {
 	#[test]
 	fn test_correct_deserialise() {
 		let correct_json_string: String = "{ \"ApiKey\":\"123\", \"Source\":\"bbc-news\"}".to_string();
-		let configuration: super::Config = super::parse_json(correct_json_string);
+		let configuration: super::Config = super::parse_json(correct_json_string).unwrap();
 		assert_eq!("123", configuration.api_key);
 	}
 
@@ -124,7 +124,7 @@ mod tests {
 	#[should_panic]
 	fn test_incorrect_json() {
 		let incorrect_json_string: String = "ioaeenrst".to_string();
-		let _configuration: super::Config = super::parse_json(incorrect_json_string);
+		let _configuration: super::Config = super::parse_json(incorrect_json_string).unwrap();
 	}
 
 	// test a JSON file string that does not contain the correct parameters
@@ -132,6 +132,6 @@ mod tests {
 	#[should_panic]
 	fn test_incorrect_config() {
 		let incorrect_config_string: String = "{ \"NotApiKey\":\"123\"}".to_string();
-		let _configuration: super::Config = super::parse_json(incorrect_config_string);
+		let _configuration: super::Config = super::parse_json(incorrect_config_string).unwrap();
 	}
 }
