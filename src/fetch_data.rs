@@ -67,14 +67,14 @@ fn make_request(query_string: String) -> Result<String, &'static str> {
 
 	let response = match response {
 		Ok(response) => response,
-		Err(error) => return Err("Could not get response from NewsAPI."),
+		Err(_error) => return Err("Could not get response from NewsAPI."),
 	};
 
 	let response = response.text();
 
 	match response {
 		Ok(response) => Ok(response),
-		Err(error) => Err("Could not convert response to string."),
+		Err(_error) => Err("Could not convert response to string."),
 	}
 }
 
@@ -87,7 +87,7 @@ fn parse_response(result_string: String) -> Result<ResponseObject, &'static str>
 
 	match response {
 		Ok(response) => Ok(response),
-		Err(error) => Err("Error parsing response from NewsAPI, potentially due to incorrect configuration settings."),
+		Err(_error) => Err("Error parsing response from NewsAPI, potentially due to incorrect configuration settings."),
 	}
 }
 

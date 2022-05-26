@@ -2,7 +2,7 @@ use serde::Deserialize;
 use std::fs::read_to_string;
 use std::fs::File;
 use std::io::ErrorKind;
-use std::io::{self, Write};
+use std::io::Write;
 
 /*
 This mod opens a config.json file, which contains the newsapi key and user preferences.
@@ -71,19 +71,19 @@ fn open_file(filepath: &'static str) -> Result<String, &'static str> {
 fn gen_file() -> Result<String, &'static str> {
 
 	// create file
-	let mut file = File::create("config.json");
+	let file = File::create("config.json");
 
 	let mut file = match file {
 		Ok(file) => file,
-		Err(error) => return Err("Could not find config file and failed to create one."),
+		Err(_error) => return Err("Could not find config file and failed to create one."),
 	};
 
 	// file file with empty config
 	let write = file.write_all(b"{\n	\"ApiKey\":\"\",\n	\"Source\":\"bbc-news\",\n	\"NumberOfHeadlines\":10,\n	\"DisplayFormat\":\"h&d&u\"\n}");
 	// returns appropriate error
 	match write {
-		Ok(r) => return Err("Default config file has been created. Please populate it with your API key and try again."),
-		Err(e) => return Err("Default config file has been created, but template could not be written to it. Please fill in this file following the template in the README."),
+		Ok(_r) => return Err("Default config file has been created. Please populate it with your API key and try again."),
+		Err(_e) => return Err("Default config file has been created, but template could not be written to it. Please fill in this file following the template in the README."),
 	}
 }
 
@@ -95,7 +95,7 @@ fn parse_json(file_contents: String) -> Result<Config, &'static str> {
 
 	let configuration = match configuration {
 		Ok(configuration) => configuration,
-		Err(error) => return Err("JSON format incorrect, could not parse."),
+		Err(_error) => return Err("JSON format incorrect, could not parse."),
 	};
 
 	if configuration.api_key == "" {
