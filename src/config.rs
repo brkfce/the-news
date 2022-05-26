@@ -82,7 +82,7 @@ fn gen_file() -> Result<String, &'static str> {
 	let write = file.write_all(b"{\n	\"ApiKey\":\"\",\n	\"Source\":\"bbc-news\",\n	\"NumberOfHeadlines\":10,\n	\"DisplayFormat\":\"h&d&u\"\n}");
 	// returns appropriate error
 	match write {
-		Ok(_r) => return Err("Default config file has been created. Please populate it with your API key and try again."),
+		Ok(_r) => return Err("No config file found, so a default config file has been created. Please populate it with your API key and try again."),
 		Err(_e) => return Err("Default config file has been created, but template could not be written to it. Please fill in this file following the template in the README."),
 	}
 }
