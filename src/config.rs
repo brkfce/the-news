@@ -73,7 +73,7 @@ fn gen_file() -> Result<String, &'static str> {
 	// create file
 	let mut file = File::create("config.json");
 
-	let file = match file {
+	let mut file = match file {
 		Ok(file) => file,
 		Err(error) => return Err("Could not find config file and failed to create one."),
 	};
